@@ -1,10 +1,46 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: >
-  geoff-little-net
- 
+Description: geoff-little-net
+
+Parameters:
+  DomainName:
+    Type: String
+    Default: geofflittle.net
+
+
 Resources:
   GeoffLittleNetHostedZone:
     Type: AWS::Route53::HostedZone
     Properties:
-      Name: geofflittle.net
+      Name:
+        Ref: DomainName
+
+
+  GeoffLittleNetCertificate:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName:
+        Ref: DomainName
+      ValidationMethod: DNS
+
+  AcmDnsValidationLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: ./dist/acmDnsValidationLambda.handler
+      Runtime: nodejs12.x
+
+  GeoffLittleCertificateValidationCustomResource:
+    Type: AWS::CloudFormation::CustomResource
+    DependsOn:
+      - GeoffLittleNetHostedZone
+      - AcmDnsValidationLambda
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+          - AcmDnsValidationLambda
+          - Arn
+      Certificate:
+        HostedZone:
+          Ref: GeoffLittleNetHostedZone
+        DomainName:
+          Ref: DomainName

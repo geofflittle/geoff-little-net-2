@@ -1,0 +1,10 @@
+{
+    "ResourceProperties": {
+        "Certificates": [
+            {
+                "HostedZone": "mock-zone",
+                "DomainName": "geofflittle.net"
+            }
+        ]
+    }
+}

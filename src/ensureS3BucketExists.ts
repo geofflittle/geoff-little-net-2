@@ -7,7 +7,8 @@ if (!bucketName) {
     process.exit(1);
 }
 
-const s3 = new aws.S3({ apiVersion: '2006-03-01' });
+aws.config.update({ region: "us-east-2" });
+const s3 = new aws.S3({ apiVersion: "2006-03-01" });
 s3.headBucket({
     Bucket: bucketName
 }).promise()
@@ -21,5 +22,6 @@ s3.headBucket({
             .catch((e) => {
                 console.log("Error creating bucket " + bucketName);
                 console.error(e);
+                process.exit(1);
             })
     });
