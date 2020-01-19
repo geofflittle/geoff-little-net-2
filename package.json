@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "ensure-artifacts-bucket-exists": "ts-node ensure-s3-bucket-exists.ts geoff-little-net-artifacts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +16,13 @@
   "bugs": {
     "url": "https://github.com/geofflittle/geoff-little-net/issues"
   },
-  "homepage": "https://github.com/geofflittle/geoff-little-net#readme"
+  "homepage": "https://github.com/geofflittle/geoff-little-net#readme",
+  "devDependencies": {
+    "aws-sdk": "^2.606.0",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "@types/node": "^13.1.8"
+  }
 }
