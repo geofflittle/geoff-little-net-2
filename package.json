@@ -1,0 +1,19 @@
+{
+  "name": "geoff-little-net",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geofflittle/geoff-little-net.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/geofflittle/geoff-little-net/issues"
+  },
+  "homepage": "https://github.com/geofflittle/geoff-little-net#readme"
+}
