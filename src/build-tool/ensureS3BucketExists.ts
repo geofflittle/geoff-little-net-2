@@ -7,8 +7,8 @@ if (!bucketName) {
     process.exit(1);
 }
 
-aws.config.update({ region: "us-east-2" });
-const s3 = new aws.S3({ apiVersion: "2006-03-01" });
+const region = process.env.AWS_REGION;
+const s3 = new aws.S3({ apiVersion: "2006-03-01", region });
 s3.headBucket({
     Bucket: bucketName
 }).promise()

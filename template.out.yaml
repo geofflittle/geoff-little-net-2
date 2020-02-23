@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: Ensures correct nameservers and acm for provided domain
+Parameters:
+  DomainName:
+    Type: String
+Resources:
+  HostedZone:
+    Type: AWS::Route53::HostedZone
+    Properties:
+      Name:
+        Ref: DomainName
+  NameserversLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: updateNameserversLambda.handler
+      Runtime: nodejs12.x
+      Timeout: 900
+      CodeUri: s3://geoff-little-net-artifacts-temp/0f1bca4ca81eaf34a6d90f28f4e98b5c
+  NameServersCustomResource:
+    Type: AWS::CloudFormation::CustomResource
+    DependsOn:
+    - HostedZone
+    - NameserversLambda
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+        - NameserversLambda
+        - Arn
+      HostedZone:
+        Ref: HostedZone

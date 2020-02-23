@@ -3,7 +3,10 @@ import webpack from "webpack";
 
 const config: webpack.Configuration =  {
     mode: "development",
-    entry: "./src/acmDnsValidationLambda.ts",
+    entry: {
+        acmDnsValidationLambda: "./src/lambda/acmDnsValidationLambda.ts",
+        updateNameserversLambda: "./src/lambda/updateNameserversLambda.ts",
+    },
     module: {
         rules: [
             {
@@ -18,11 +21,11 @@ const config: webpack.Configuration =  {
     },
     externals: {
     // FIXME: Exclude this for deploys
-    //     "aws-sdk": "aws-sdk"
+        "aws-sdk": "aws-sdk"
     },
     target: "node",
     output: {
-        filename: 'acmDnsValidationLambda.js',
+        filename: "[name].js",
         libraryTarget: "commonjs2",
         path: path.resolve(__dirname, 'dist'),
     },

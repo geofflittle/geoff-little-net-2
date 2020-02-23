@@ -1,10 +1,10 @@
 {
+    "RequestType": "CREATE",
     "ResourceProperties": {
-        "Certificates": [
-            {
-                "HostedZone": "mock-zone",
-                "DomainName": "geofflittle.net"
-            }
-        ]
+        "Certificate": {
+            "HostedZone": "/hostedzone/ZTT3IK2SRNKES",
+            "DomainName": "geofflittle.net",
+            "AlternativeNames": ["dev.geofflittle.net", "www.geofflittle.net"]
+        }
     }
 }

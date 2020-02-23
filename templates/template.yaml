@@ -7,7 +7,6 @@ Parameters:
     Type: String
     Default: geofflittle.net
 
-
 Resources:
   GeoffLittleNetHostedZone:
     Type: AWS::Route53::HostedZone
@@ -15,6 +14,25 @@ Resources:
       Name:
         Ref: DomainName
 
+  NameServersLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: ./dist/nameServersLambda.handler
+      Runtime: nodejs12.x
+      Timeout: 900
+
+  GeoffLittleCertificateNameServersCustomResource:
+    Type: AWS::CloudFormation::CustomResource
+    DependsOn:
+      - GeoffLittleNetHostedZone
+      - NameServersLambda
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+          - NameServersLambda
+          - Arn
+      HostedZone:
+        Ref: GeoffLittleNetHostedZone
 
   GeoffLittleNetCertificate:
     Type: AWS::CertificateManager::Certificate
@@ -28,6 +46,7 @@ Resources:
     Properties:
       Handler: ./dist/acmDnsValidationLambda.handler
       Runtime: nodejs12.x
+      Timeout: 900
 
   GeoffLittleCertificateValidationCustomResource:
     Type: AWS::CloudFormation::CustomResource
@@ -44,3 +63,12 @@ Resources:
           Ref: GeoffLittleNetHostedZone
         DomainName:
           Ref: DomainName
+        AlternativeNames:
+          - Fn::Join:
+              - ""
+              - - dev.
+                - DomainName
+          - Fn::Join:
+              - ""
+              - - www.
+                - DomainName
